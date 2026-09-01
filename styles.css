@@ -1,0 +1,695 @@
+/* ============================================================
+   BLOQUE CIUDADANO MEXICALENSE — Landing "Reforma Electoral BC"
+   Hoja de estilos propia. Mobile-first. Breakpoints: 640 / 900 / 1200.
+   ============================================================ */
+
+/* ---------- 1. Variables globales ---------- */
+:root {
+  /* Paleta (leída del flyer assets/Bloque_septiembre.jpeg) */
+  --azul-profundo: #1B4FD8;
+  --azul-medio: #2E9BE8;
+  --azul-claro: #8FCEF2;
+  --verde-lima: #8CC63E;
+  --verde-claro: #A8D45E;
+  --negro: #111111;
+  --gris-texto: #4A4A4A;
+  --gris-borde: #DCE1E6;
+  --gris-fondo: #F7F9FB;
+  --blanco: #FFFFFF;
+
+  /* Tipografía */
+  --font-base: "Inter", Arial, sans-serif;
+
+  /* Layout */
+  --max-width: 1120px;
+  --radio-boton: 999px;
+  --sombra-suave: 0 4px 16px rgba(17, 17, 17, 0.08);
+  --sombra-header: 0 2px 12px rgba(17, 17, 17, 0.10);
+
+  /* Transiciones */
+  --transicion: 0.2s ease;
+}
+
+/* ---------- 2. Reset básico ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-base);
+  color: var(--gris-texto);
+  background: var(--blanco);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+h1, h2, h3, h4 {
+  color: var(--negro);
+  margin: 0;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* ---------- 3. Accesibilidad ---------- */
+.skip-link {
+  position: absolute;
+  left: 0;
+  top: -100%;
+  background: var(--azul-profundo);
+  color: var(--blanco);
+  padding: 0.75em 1.25em;
+  z-index: 1000;
+  transition: top var(--transicion);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--azul-profundo);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- 4. Utilidades de layout ---------- */
+.contenedor {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.seccion {
+  padding: 64px 0;
+}
+
+.seccion__titulo {
+  font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6em;
+}
+
+.seccion__intro {
+  max-width: 68ch;
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
+}
+
+/* ---------- 5. Botones ---------- */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 0.9em 1.8em;
+  border-radius: var(--radio-boton);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transicion), box-shadow var(--transicion);
+}
+
+.boton:hover {
+  transform: translateY(-1px);
+}
+
+.boton--primario {
+  background: var(--verde-claro);
+  color: var(--blanco);
+  box-shadow: var(--sombra-suave);
+}
+
+.boton--primario:hover {
+  box-shadow: 0 6px 20px rgba(140, 198, 62, 0.35);
+}
+
+.boton--secundario {
+  background: transparent;
+  color: var(--azul-profundo);
+  border: 2px solid var(--azul-profundo);
+}
+
+.boton--secundario:hover {
+  background: var(--azul-profundo);
+  color: var(--blanco);
+}
+
+/* ---------- 6. Header ---------- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--blanco);
+  transition: box-shadow var(--transicion);
+}
+
+.header--con-sombra {
+  box-shadow: var(--sombra-header);
+}
+
+.header__contenido {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+}
+
+.header__logo img {
+  height: 34px;
+  width: auto;
+}
+
+/* ---------- 7. Hero ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--blanco);
+}
+
+.hero__formas-superior {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero__ola-inferior {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero__contenido {
+  position: relative;
+  z-index: 1;
+  padding: 56px 0 100px;
+  text-align: center;
+}
+
+.hero__eyebrow {
+  display: block;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--azul-profundo);
+  font-size: 0.85rem;
+  margin-bottom: 0.8em;
+}
+
+.hero__titulo {
+  font-size: clamp(2rem, 1.3rem + 3.5vw, 3.6rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 0.3em;
+}
+
+.hero__subtitulo {
+  font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.35rem);
+  font-weight: 400;
+  color: var(--gris-texto);
+  max-width: 46ch;
+  margin: 0 auto 1.6em;
+}
+
+.hero__datos {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  margin-top: 2em;
+}
+
+.hero__dato {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  font-weight: 600;
+  color: var(--negro);
+}
+
+.hero__dato svg {
+  flex-shrink: 0;
+  color: var(--azul-profundo);
+}
+
+/* ---------- 8. Flyer oficial ---------- */
+.flyer-oficial {
+  text-align: center;
+  padding: 32px 0 8px;
+}
+
+.flyer-oficial__titulo {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gris-texto);
+  margin-bottom: 1em;
+}
+
+.flyer-oficial img {
+  width: 100%;
+  max-width: clamp(240px, 45vw, 380px);
+  aspect-ratio: 618 / 800;
+  height: auto;
+  object-fit: cover;
+  margin: 0 auto;
+  border-radius: 12px;
+  border: 1px solid var(--gris-borde);
+  box-shadow: var(--sombra-suave);
+}
+
+/* ---------- 9. De qué trata ---------- */
+.trata {
+  background: var(--gris-fondo);
+}
+
+.trata__texto p {
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+}
+
+/* ---------- 10. Ponente ---------- */
+.ponente__grid {
+  display: grid;
+  gap: 32px;
+  align-items: start;
+}
+
+.ponente__retrato-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.ponente__retrato {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 9px solid var(--verde-lima);
+}
+
+.ponente__retrato img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% 42%;
+}
+
+.ponente__nombre {
+  font-size: clamp(1.4rem, 1.2rem + 0.9vw, 1.8rem);
+  font-weight: 800;
+  text-align: center;
+  margin-top: 1em;
+}
+
+.ponente__cargo {
+  text-align: center;
+  font-weight: 600;
+  color: var(--azul-profundo);
+  margin-bottom: 1.2em;
+}
+
+.ponente__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 1.4em 0;
+}
+
+.chip {
+  display: inline-block;
+  padding: 0.5em 1em;
+  border-radius: var(--radio-boton);
+  background: var(--gris-fondo);
+  border: 1px solid var(--gris-borde);
+  color: var(--negro);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ---------- 11. Ubicación ---------- */
+.ubicacion {
+  background: var(--gris-fondo);
+}
+
+.ubicacion__grid {
+  display: grid;
+  gap: 24px;
+}
+
+.ubicacion__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+}
+
+.ubicacion__mapa {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--gris-borde);
+  background: var(--blanco);
+}
+
+.ubicacion__mapa iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ---------- 12. Registro + Encuesta ---------- */
+.registro {
+  background: linear-gradient(180deg, var(--blanco) 0%, var(--gris-fondo) 100%);
+}
+
+.formulario-card {
+  max-width: 760px;
+  margin: 0 auto;
+  background: var(--blanco);
+  border: 1px solid var(--gris-borde);
+  border-radius: 16px;
+  padding: clamp(24px, 4vw, 44px);
+  box-shadow: var(--sombra-suave);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--negro);
+}
+
+.campo .obligatorio {
+  color: #C0392B;
+}
+
+.campo input[type="text"],
+.campo input[type="email"],
+.campo input[type="tel"],
+.campo select,
+.campo textarea {
+  width: 100%;
+  padding: 0.75em 0.9em;
+  border: 1px solid var(--gris-borde);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--negro);
+  background: var(--blanco);
+  transition: border-color var(--transicion);
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  border-color: var(--azul-profundo);
+}
+
+.campo textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.campo[data-invalido="true"] input,
+.campo[data-invalido="true"] select,
+.campo[data-invalido="true"] textarea {
+  border-color: #C0392B;
+}
+
+.campo__error {
+  color: #C0392B;
+  font-size: 0.85rem;
+  min-height: 1.2em;
+}
+
+.campo__contador {
+  font-size: 0.8rem;
+  color: var(--gris-texto);
+  text-align: right;
+}
+
+.form-grid--2col {
+  grid-template-columns: 1fr;
+}
+
+.radios,
+.encuesta-opciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+}
+
+.radios label {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.encuesta-fieldset {
+  border: 1px dashed var(--gris-borde);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+.encuesta-fieldset legend {
+  font-weight: 800;
+  padding: 0 8px;
+  color: var(--azul-profundo);
+}
+
+.encuesta-fieldset .campo {
+  margin-bottom: 20px;
+}
+
+.encuesta-fieldset .campo:last-child {
+  margin-bottom: 0;
+}
+
+.form-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-enviar {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.form-enviar:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.form-privacidad {
+  font-size: 0.8rem;
+  color: var(--gris-texto);
+  margin-top: 12px;
+}
+
+.confirmacion {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.confirmacion__icono {
+  color: var(--verde-lima);
+  margin-bottom: 0.6em;
+}
+
+.confirmacion__titulo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 0.4em;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- 13. Footer ---------- */
+.footer {
+  background: var(--negro);
+  color: #D9D9D9;
+  padding: 48px 0 24px;
+}
+
+.footer__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.footer__logo img {
+  height: 30px;
+  filter: brightness(0) invert(1);
+}
+
+.footer__redes {
+  display: flex;
+  gap: 14px;
+}
+
+.footer__redes a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--blanco);
+  transition: background var(--transicion), color var(--transicion);
+}
+
+.footer__redes a:hover {
+  background: var(--verde-lima);
+  color: var(--negro);
+}
+
+.footer__enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.85rem;
+}
+
+.footer__enlaces a {
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+.footer__enlaces a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.footer__legal {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin-top: 32px;
+  padding-top: 20px;
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+/* ============================================================
+   BREAKPOINTS
+   ============================================================ */
+
+/* ---------- 640px: hero de fila en datos, form 2 col ---------- */
+@media (min-width: 640px) {
+  .hero__datos {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+  }
+
+  .form-grid--2col {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer__grid {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* ---------- 900px: ponente en 2 columnas, ubicación en 2 columnas ---------- */
+@media (min-width: 900px) {
+  .ponente__grid {
+    grid-template-columns: 280px 1fr;
+  }
+
+  .ponente__nombre,
+  .ponente__cargo {
+    text-align: left;
+  }
+
+  .ubicacion__grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .hero__contenido {
+    padding: 80px 0 140px;
+  }
+}
+
+/* ---------- 1200px: ajustes de tipografía y espaciados mayores ---------- */
+@media (min-width: 1200px) {
+  .seccion {
+    padding: 88px 0;
+  }
+}
