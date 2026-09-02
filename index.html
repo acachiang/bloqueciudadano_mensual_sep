@@ -193,97 +193,54 @@
       </div>
     </section>
 
-    <!-- ============ REGISTRO + ENCUESTA (Zoho Web-to-Lead) ============ -->
+    <!-- ============ REGISTRO (Google Sheets vía Apps Script) ============ -->
     <section class="seccion registro" id="registro">
       <div class="contenedor">
         <h2 class="seccion__titulo">Solicita tu acceso</h2>
         <p class="seccion__intro">Llena el formulario y te enviaremos los detalles de acceso por WhatsApp y correo.</p>
 
         <div class="formulario-card">
-          <!-- Formulario Zoho CRM Web-to-Lead. Reestilizado por completo; funcionamiento, action,
-               método, campos ocultos y nombres de campo se conservan sin modificar. -->
-          <form
-            id="webform4654888000147097500"
-            action="https://crm.zoho.com/crm/WebToLeadForm"
-            name="WebToLeads4654888000147097500"
-            method="POST"
-            acceptCharset="UTF-8"
-            target="zoho_target"
-            novalidate
-          >
-            <!-- Campos ocultos de Zoho: no modificar valores -->
-            <input type="text" style="display:none;" name="xnQsjsdp" value="cf3c34c0358f00ec803cac8240f552619b7bd15eba0d5bf2c06b9df62e650473" />
-            <input type="hidden" name="zc_gad" id="zc_gad" value="" />
-            <input type="text" style="display:none;" name="xmIwtLD" value="8c18435cfa4432dfc211e2e9ca66d7e998de1b626a1464dcbb5d75d71cee028b56c69d411ef488b2b9979809a3b0f23e" />
-            <input type="text" style="display:none;" name="actionType" value="TGVhZHM=" />
-            <input type="text" style="display:none;" name="returnURL" value="null" />
-            <!-- Honeypot anti-spam de Zoho: debe permanecer vacío -->
-            <input type="text" class="form-honeypot" tabindex="-1" autocomplete="off" name="aG9uZXlwb3Q" value="" aria-hidden="true" />
-
+          <!-- Formulario propio. El envío (fetch a Apps Script) se maneja en script.js. -->
+          <form id="formRegistro" novalidate>
             <div class="form-grid form-grid--2col">
-              <div class="campo" data-campo="First Name">
-                <label for="First_Name">Nombre <span class="obligatorio">*</span></label>
-                <input type="text" id="First_Name" name="First Name" maxlength="40" required aria-required="true" aria-describedby="error-first-name" />
-                <div class="campo__error" id="error-first-name" aria-live="polite"></div>
+              <div class="campo">
+                <label for="reg-nombre">Nombre <span class="obligatorio">*</span></label>
+                <input type="text" id="reg-nombre" name="nombre" placeholder="Nombre" required aria-required="true" />
               </div>
 
-              <div class="campo" data-campo="Last Name">
-                <label for="Last_Name">Apellidos <span class="obligatorio">*</span></label>
-                <input type="text" id="Last_Name" name="Last Name" maxlength="80" required aria-required="true" aria-describedby="error-last-name" />
-                <div class="campo__error" id="error-last-name" aria-live="polite"></div>
+              <div class="campo">
+                <label for="reg-apellido-paterno">Apellido paterno <span class="obligatorio">*</span></label>
+                <input type="text" id="reg-apellido-paterno" name="apellidoPaterno" placeholder="Apellido Paterno" required aria-required="true" />
               </div>
 
-              <div class="campo" data-campo="Email">
-                <label for="Email">Correo electrónico <span class="obligatorio">*</span></label>
-                <input type="email" id="Email" name="Email" maxlength="100" required aria-required="true" aria-describedby="error-email" />
-                <div class="campo__error" id="error-email" aria-live="polite"></div>
+              <div class="campo">
+                <label for="reg-apellido-materno">Apellido materno <span class="obligatorio">*</span></label>
+                <input type="text" id="reg-apellido-materno" name="apellidoMaterno" placeholder="Apellido Materno" required aria-required="true" />
               </div>
 
-              <div class="campo" data-campo="Mobile">
-                <label for="Mobile">WhatsApp <span class="obligatorio">*</span></label>
-                <input type="tel" id="Mobile" name="Mobile" maxlength="30" required aria-required="true" aria-describedby="error-mobile" />
-                <div class="campo__error" id="error-mobile" aria-live="polite"></div>
+              <div class="campo">
+                <label for="reg-correo">Correo electrónico <span class="obligatorio">*</span></label>
+                <input type="email" id="reg-correo" name="correo" placeholder="Correo" required aria-required="true" />
               </div>
 
-              <div class="campo" data-campo="LEADCF7">
-                <label for="LEADCF7">¿Perteneces a alguna institución o empresa? <span class="obligatorio">*</span></label>
-                <input type="text" id="LEADCF7" name="LEADCF7" maxlength="255" required aria-required="true" aria-describedby="error-leadcf7" />
-                <div class="campo__error" id="error-leadcf7" aria-live="polite"></div>
+              <div class="campo">
+                <label for="reg-telefono">Teléfono <span class="obligatorio">*</span></label>
+                <input type="tel" id="reg-telefono" name="telefono" placeholder="Teléfono" required aria-required="true" />
               </div>
-              <!-- TODO: campo LEADCF7 no estaba en la especificación original del prompt, pero es obligatorio
-                   en el formulario Zoho real (checkMandatory). Ver README. -->
 
-              <div class="campo" data-campo="LEADCF49">
-                <label for="LEADCF49">¿Algún amigo te invitó? ¡Cuéntanos quién!</label>
-                <input type="text" id="LEADCF49" name="LEADCF49" maxlength="255" aria-describedby="error-leadcf49" />
-                <div class="campo__error" id="error-leadcf49" aria-live="polite"></div>
+              <div class="campo">
+                <label for="reg-empresa">Empresa o agrupación</label>
+                <input type="text" id="reg-empresa" name="empresa" placeholder="Empresa o Agrupación" />
               </div>
             </div>
 
-            <button type="submit" class="boton boton--primario form-enviar" id="formsubmit">Solicita tu acceso</button>
+            <button type="submit" class="boton boton--primario form-enviar">Registrarme</button>
 
-            <p class="form-privacidad">
-              Al enviar este formulario aceptas nuestro
-              <a href="#" rel="noopener noreferrer"><!-- TODO: enlazar aviso de privacidad real de bloqueciudadanomxli.org -->aviso de privacidad</a>.
-            </p>
+            <p id="mensajeEstado" class="form-mensaje-estado" aria-live="polite"></p>
           </form>
-
-          <!-- Bloque de confirmación, oculto hasta el envío -->
-          <div class="confirmacion" id="confirmacion" hidden>
-            <svg class="confirmacion__icono" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg>
-            <p class="confirmacion__titulo">Registro recibido</p>
-            <p>Te enviaremos los detalles de acceso por WhatsApp y correo.</p>
-          </div>
-
-          <!-- iframe oculto: evita que Zoho redirija fuera del sitio al enviar -->
-          <iframe name="zoho_target" style="display:none" title="Envío del formulario"></iframe>
         </div>
       </div>
     </section>
-
-    <!-- Do not remove this --- Analytics Tracking code starts -->
-    <script id="wf_anal" src="https://crm.zohopublic.com/crm/WebFormAnalyticsServeServlet?rid=cd395f755c9ea2c5b2e90fb4541b15c9eb0959c3391f479fecbac9384d8399800067825fa68531375af9fda77206cb08gid255c7ffd8a4558dc13a63fd0a2a03b45a29eeed93c6cdd443a49596589df76e4gid0cbba9e7d8429328b0094aea65fe49e534d5b06554706247880540f368665944gid03bae6c5aa500b1b0a58dee4af4e44e865a5615ad34d1412bb947882c4752223&tw=51f9e383c7c96c2c4b1d65bb31cc7d82340d67b4ff2546bda799bf05a03947b9&version=v2"></script>
-    <!-- Do not remove this --- Analytics Tracking code ends. -->
 
   </main>
 

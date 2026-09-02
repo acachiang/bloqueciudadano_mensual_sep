@@ -6,7 +6,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   inicializarHeaderSticky();
   inicializarAnioDinamico();
-  inicializarFormulario();
+  inicializarFormularioRegistro();
 });
 
 /* ---------- Header con sombra al hacer scroll ---------- */
@@ -34,105 +34,50 @@ function inicializarAnioDinamico() {
   }
 }
 
-/* ---------- Formulario Zoho: validación inline + envío sin salir del sitio ---------- */
-function inicializarFormulario() {
-  var form = document.getElementById("webform4654888000147097500");
+/* ---------- Formulario de registro: envío a Google Sheets vía Apps Script ---------- */
+var SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbza0eQNgjqjaYiq9H2-psnrhUHCMQ99LvDikPAlbTPzW4c-Oakvdq5zLB7h2QnjUp4x/exec";
+
+function inicializarFormularioRegistro() {
+  var form = document.getElementById("formRegistro");
   if (!form) return;
 
-  var botonEnviar = document.getElementById("formsubmit");
-  var confirmacion = document.getElementById("confirmacion");
+  form.addEventListener("submit", async function (evento) {
+    evento.preventDefault();
 
-  var camposObligatorios = [
-    { id: "First_Name", nombre: "First Name", errorId: "error-first-name", mensaje: "Ingresa tu nombre." },
-    { id: "Last_Name", nombre: "Last Name", errorId: "error-last-name", mensaje: "Ingresa tus apellidos." },
-    { id: "Email", nombre: "Email", errorId: "error-email", mensaje: "Ingresa un correo electrónico." },
-    { id: "Mobile", nombre: "Mobile", errorId: "error-mobile", mensaje: "Ingresa tu número de WhatsApp." },
-    { id: "LEADCF7", nombre: "LEADCF7", errorId: "error-leadcf7", mensaje: "Este campo es obligatorio." }
-  ];
+    var boton = form.querySelector("button[type=submit]");
+    var mensaje = document.getElementById("mensajeEstado");
 
-  function limpiarError(campo) {
-    var input = document.getElementById(campo.id);
-    var error = document.getElementById(campo.errorId);
-    if (input) {
-      input.removeAttribute("aria-invalid");
-      var contenedor = input.closest(".campo");
-      if (contenedor) contenedor.removeAttribute("data-invalido");
+    var data = {
+      nombre: form.nombre.value.trim(),
+      apellidoPaterno: form.apellidoPaterno.value.trim(),
+      apellidoMaterno: form.apellidoMaterno.value.trim(),
+      correo: form.correo.value.trim(),
+      telefono: form.telefono.value.trim(),
+      empresa: form.empresa.value.trim()
+    };
+
+    boton.disabled = true;
+    boton.textContent = "Enviando...";
+
+    try {
+      await fetch(SHEET_WEBAPP_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(data)
+      });
+
+      // Con no-cors no podemos leer la respuesta real del Apps Script, así que asumimos éxito.
+      mensaje.textContent = "¡Registro exitoso! Te esperamos el 9 de septiembre.";
+      mensaje.style.color = "#2E7D32";
+      form.reset();
+    } catch (error) {
+      mensaje.textContent = "Hubo un error al enviar tu registro. Intenta de nuevo.";
+      mensaje.style.color = "#C0392B";
+      console.error(error);
+    } finally {
+      boton.disabled = false;
+      boton.textContent = "Registrarme";
     }
-    if (error) error.textContent = "";
-  }
-
-  function marcarError(campo, mensaje) {
-    var input = document.getElementById(campo.id);
-    var error = document.getElementById(campo.errorId);
-    if (input) {
-      input.setAttribute("aria-invalid", "true");
-      var contenedor = input.closest(".campo");
-      if (contenedor) contenedor.setAttribute("data-invalido", "true");
-    }
-    if (error) error.textContent = mensaje;
-    return input;
-  }
-
-  function esEmailValido(valor) {
-    var arroba = valor.indexOf("@");
-    var punto = valor.lastIndexOf(".");
-    return arroba > 0 && punto > arroba + 1 && punto + 2 < valor.length;
-  }
-
-  function validarFormulario() {
-    var primerInvalido = null;
-    var esValido = true;
-
-    camposObligatorios.forEach(function (campo) {
-      limpiarError(campo);
-      var input = document.getElementById(campo.id);
-      var valor = input ? input.value.trim() : "";
-
-      if (valor.length === 0) {
-        var el = marcarError(campo, campo.mensaje);
-        esValido = false;
-        if (!primerInvalido) primerInvalido = el;
-        return;
-      }
-
-      if (campo.id === "Email" && !esEmailValido(valor)) {
-        var elEmail = marcarError(campo, "Ingresa un correo electrónico válido.");
-        esValido = false;
-        if (!primerInvalido) primerInvalido = elEmail;
-      }
-    });
-
-    if (!esValido && primerInvalido) {
-      primerInvalido.focus();
-    }
-
-    return esValido;
-  }
-
-  form.addEventListener("submit", function (evento) {
-    // Honeypot: si el campo trampa viene lleno, se trata como envío de bot y se bloquea.
-    var honeypot = form.querySelector('input[name="aG9uZXlwb3Q"]');
-    if (honeypot && honeypot.value.trim() !== "") {
-      evento.preventDefault();
-      return;
-    }
-
-    if (!validarFormulario()) {
-      evento.preventDefault();
-      return;
-    }
-
-    botonEnviar.disabled = true;
-    botonEnviar.textContent = "Enviando…";
-
-    // El formulario se envía de forma nativa al iframe oculto "zoho_target"
-    // (Zoho no permite leer la respuesta cross-origin), así que mostramos
-    // la confirmación tras un breve margen para asegurar que la petición salió.
-    window.setTimeout(function () {
-      form.hidden = true;
-      confirmacion.hidden = false;
-      confirmacion.setAttribute("tabindex", "-1");
-      confirmacion.focus();
-    }, 600);
   });
 }

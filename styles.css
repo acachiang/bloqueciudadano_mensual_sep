@@ -431,6 +431,10 @@ button {
   gap: 18px;
 }
 
+.form-grid--2col {
+  grid-template-columns: 1fr;
+}
+
 .campo {
   display: flex;
   flex-direction: column;
@@ -449,9 +453,7 @@ button {
 
 .campo input[type="text"],
 .campo input[type="email"],
-.campo input[type="tel"],
-.campo select,
-.campo textarea {
+.campo input[type="tel"] {
   width: 100%;
   padding: 0.75em 0.9em;
   border: 1px solid var(--gris-borde);
@@ -463,43 +465,12 @@ button {
   transition: border-color var(--transicion);
 }
 
-.campo input:focus,
-.campo select:focus,
-.campo textarea:focus {
+.campo input:focus {
   border-color: var(--azul-profundo);
 }
 
-.campo textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.campo[data-invalido="true"] input,
-.campo[data-invalido="true"] select,
-.campo[data-invalido="true"] textarea {
-  border-color: #C0392B;
-}
-
-.campo__error {
-  color: #C0392B;
-  font-size: 0.85rem;
-  min-height: 1.2em;
-}
-
-.form-grid--2col {
-  grid-template-columns: 1fr;
-}
-
-.form-honeypot {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
 .form-enviar {
-  margin-top: 8px;
+  margin-top: 22px;
   width: 100%;
 }
 
@@ -508,30 +479,11 @@ button {
   cursor: not-allowed;
 }
 
-.form-privacidad {
-  font-size: 0.8rem;
-  color: var(--gris-texto);
-  margin-top: 12px;
-}
-
-.confirmacion {
+.form-mensaje-estado {
+  margin: 14px 0 0;
+  font-weight: 600;
   text-align: center;
-  padding: 20px 0;
-}
-
-.confirmacion__icono {
-  color: var(--verde-lima);
-  margin-bottom: 0.6em;
-}
-
-.confirmacion__titulo {
-  font-size: 1.4rem;
-  font-weight: 800;
-  margin-bottom: 0.4em;
-}
-
-[hidden] {
-  display: none !important;
+  min-height: 1.2em;
 }
 
 /* ---------- 13. Footer ---------- */

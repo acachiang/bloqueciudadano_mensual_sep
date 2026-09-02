@@ -39,21 +39,25 @@ Landing de una sola vista para solicitar acceso al evento. HTML5 + CSS3 + JS van
   - Facebook: se usó el link que diste, pero es un video, no la página — comentario TODO en el `<footer>` para reemplazarlo por la URL de la página oficial.
   - Instagram: quedó como `href="#"` con TODO — no se encontraron enlaces a redes sociales en el sitio oficial (solo un grupo de WhatsApp con código QR).
 
-### Formulario Zoho — campo fuera del prompt original
-El HTML original de Zoho que proporcionaste incluye un campo `LEADCF7` ("¿Perteneces a alguna institución o empresa?") marcado como **obligatorio** en el script `checkMandatory` de Zoho, que no estaba listado en la especificación inicial (que solo mencionaba `LEADCF49`). Se conservó y se agregó como campo obligatorio en el formulario reestilizado para no romper el envío al CRM. Revisa que el texto de la etiqueta sea el que quieres mostrar públicamente.
+### Formulario de registro — Google Sheets vía Apps Script
+El backend de registro ya **no usa Zoho CRM ni Google Forms**. Ahora es un `<form id="formRegistro">` propio (`index.html`, sección `#registro`), reestilizado con las clases del sitio (`.campo`, `.form-grid--2col`) y con `<label>` reales asociadas a cada campo. El envío lo maneja `inicializarFormularioRegistro()` en `script.js`: al hacer submit, arma un JSON con los valores y hace `fetch()` en modo `no-cors` a un Web App de Google Apps Script (que a su vez escribe la fila en una Google Sheet):
 
-También nota: el `id`/`name` del formulario en el HTML que compartiste es `webform4654888000147097500` / `WebToLeads4654888000147097500` (no el `...493` mencionado en el prompt original) — se usó el valor real que proporcionaste.
+```
+SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbza0eQNgjqjaYiq9H2-psnrhUHCMQ99LvDikPAlbTPzW4c-Oakvdq5zLB7h2QnjUp4x/exec"
+```
 
-**Nota:** la encuesta opcional ("Antes de terminar") especificada en el prompt original se implementó y luego se retiró a petición explícita — el formulario ahora solo pide los datos de registro (Nombre, Apellidos, Correo, WhatsApp, LEADCF7 y LEADCF49).
+Campos y `name` que se envían (deben coincidir con lo que tu script de Apps Script espera leer en `e.postData.contents`): `nombre`, `apellidoPaterno`, `apellidoMaterno`, `correo`, `telefono` (obligatorios) y `empresa` (opcional, "Empresa o Agrupación").
 
-### Redirección tras el envío (`returnURL`)
-Actualmente el formulario usa `target="zoho_target"` apuntando a un `<iframe>` oculto, y el JS (`script.js`) oculta el formulario y muestra el bloque de confirmación en el sitio sin salir de la página — **no depende de `returnURL`**.
+**Importante sobre `mode: "no-cors"`:** el navegador bloquea la lectura de la respuesta real del Apps Script en este modo (es una limitación intencional de `no-cors`, no un bug). Por eso, tal como en el código que diste, el mensaje "¡Registro exitoso!" se muestra **de forma optimista** en cuanto el `fetch` no lanza una excepción de red — no hay forma de confirmar, desde el navegador, que el Apps Script realmente escribió la fila en la hoja (por ejemplo, si el script tiene un error interno o el deployment no es público, el usuario igual vería el mensaje de éxito). Para depurarlo, revisa las respuestas del lado del Apps Script en **Ejecuciones** (Extensions → Apps Script → Executions) o añade tu propio endpoint de verificación si necesitas confirmarlo desde el cliente.
 
-Alternativa nativa de Zoho: en **Setup → Developer Space → Web-to-Lead Forms**, edita el formulario y define el "Return URL" apuntando a una página propia (por ejemplo `/gracias.html`). Si haces esto, Zoho regenerará el HTML con un nuevo valor en el input oculto `returnURL`; tendrías que volver a copiar ese valor aquí. Con el enfoque actual (iframe oculto + confirmación in-page) no es necesario crear `/gracias.html`, pero queda documentado por si prefieres ese flujo en el futuro.
+**Requisito del deployment de Apps Script:** para que `fetch` funcione desde cualquier visitante (sin sesión de Google), el Web App debe estar implementado con acceso **"Cualquier usuario"** (Deploy → Manage deployments → Execute as: *Me*, Who has access: *Anyone*). Si está restringido a tu organización o a usuarios específicos, los envíos fallarán silenciosamente (con `no-cors` tampoco verías el error en consola).
+
+**Nota de seguridad:** este patrón no tiene protección anti-spam (sin honeypot ni CAPTCHA) — cualquiera que descubra la URL del Web App puede enviarle datos directamente, sin pasar por el formulario. Si te preocupa el spam en la hoja, considera agregar validación del lado del Apps Script o un CAPTCHA (p. ej. reCAPTCHA v3) más adelante; no se implementó aquí por no estar en el alcance pedido.
 
 ## Accesibilidad y SEO implementados
-- HTML semántico (`header`, `main`, `section`, `footer`), skip-link, foco visible, `aria-live="polite"` en errores del formulario.
+- HTML semántico (`header`, `main`, `section`, `footer`), skip-link, foco visible.
 - `<title>`, meta description, Open Graph, Twitter Card, `lang="es-MX"`, `canonical` (con TODO para ajustar dominio real de despliegue) y JSON-LD `schema.org/Event`.
+- El formulario embebido de Google (dentro del `<iframe>`) tiene su propia accesibilidad, fuera del control de este HTML.
 
 ## Notas de fidelidad al flyer
 El flyer (`assets/Bloque_septiembre.jpeg`) se usó como referencia visual primaria. La paleta declarada en `styles.css` corresponde a lo observado en la imagen. Las formas del hero (triángulo verde + franja diagonal azul arriba, olas azules abajo) se reconstruyeron con SVG inline, no como imagen de fondo, para mantener el hero responsivo, seleccionable e indexable — el flyer solo aparece como descarga discreta debajo del hero.
