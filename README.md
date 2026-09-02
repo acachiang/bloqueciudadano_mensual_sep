@@ -43,7 +43,7 @@ Landing de una sola vista para solicitar acceso al evento. HTML5 + CSS3 + JS van
 El backend de registro ya **no usa Zoho CRM ni Google Forms**. Ahora es un `<form id="formRegistro">` propio (`index.html`, sección `#registro`), reestilizado con las clases del sitio (`.campo`, `.form-grid--2col`) y con `<label>` reales asociadas a cada campo. El envío lo maneja `inicializarFormularioRegistro()` en `script.js`: al hacer submit, arma un JSON con los valores y hace `fetch()` en modo `no-cors` a un Web App de Google Apps Script (que a su vez escribe la fila en una Google Sheet):
 
 ```
-SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbza0eQNgjqjaYiq9H2-psnrhUHCMQ99LvDikPAlbTPzW4c-Oakvdq5zLB7h2QnjUp4x/exec"
+SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxwfSallpfBwb4ivTmXSd-iNR2E9dyzacSmK4q4jvdkVj1B5vbp1Sk5kzX7l5sHI2ie/exec"
 ```
 
 Campos y `name` que se envían (deben coincidir con lo que tu script de Apps Script espera leer en `e.postData.contents`): `nombre`, `apellidoPaterno`, `apellidoMaterno`, `correo`, `telefono` (obligatorios) y `empresa` (opcional, "Empresa o Agrupación").

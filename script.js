@@ -35,7 +35,7 @@ function inicializarAnioDinamico() {
 }
 
 /* ---------- Formulario de registro: envío a Google Sheets vía Apps Script ---------- */
-var SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbza0eQNgjqjaYiq9H2-psnrhUHCMQ99LvDikPAlbTPzW4c-Oakvdq5zLB7h2QnjUp4x/exec";
+var SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxwfSallpfBwb4ivTmXSd-iNR2E9dyzacSmK4q4jvdkVj1B5vbp1Sk5kzX7l5sHI2ie/exec";
 
 function inicializarFormularioRegistro() {
   var form = document.getElementById("formRegistro");
