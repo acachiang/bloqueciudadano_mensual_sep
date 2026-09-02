@@ -44,25 +44,7 @@ El HTML original de Zoho que proporcionaste incluye un campo `LEADCF7` ("¿Perte
 
 También nota: el `id`/`name` del formulario en el HTML que compartiste es `webform4654888000147097500` / `WebToLeads4654888000147097500` (no el `...493` mencionado en el prompt original) — se usó el valor real que proporcionaste.
 
-### Campos de encuesta pendientes de vincular a Zoho (Ruta A)
-
-La encuesta se envía en el mismo submit que el registro, usando 5 campos ocultos que hoy son placeholders:
-
-| Campo oculto en `index.html` | Pregunta de la encuesta | Acción pendiente |
-|---|---|---|
-| `LEADCF_TODO_1` | ¿Qué tan informado te consideras sobre la reforma electoral? | Crear campo personalizado en Zoho, regenerar el Web-to-Lead y reemplazar `LEADCF_TODO_1` por el `LEADCF##` real |
-| `LEADCF_TODO_2` | ¿Consideras que la propaganda electoral genera contaminación visual? | ídem |
-| `LEADCF_TODO_3` | ¿Qué tema te interesa más del evento? | ídem |
-| `LEADCF_TODO_4` | ¿Cómo te enteraste del evento? | ídem |
-| `LEADCF_TODO_5` | ¿Algo que te gustaría que se abordara? (texto libre) | ídem |
-
-**Cómo obtener los IDs reales:**
-1. Zoho CRM → **Setup → Modules and Fields → Leads** → crea un campo personalizado por cada pregunta (tipo texto/picklist según corresponda).
-2. Ve a **Setup → Developer Space → Web-to-Lead Forms**, abre el formulario del evento y regenera/edita el código para incluir los nuevos campos.
-3. Copia el atributo `name="LEADCF##"` que Zoho genere para cada campo nuevo.
-4. Reemplaza cada `LEADCF_TODO_N` en `index.html` (el `name`, el `id` y las referencias en `script.js` dentro de `poblarRespuestasEncuesta()`) por el `LEADCF##` real correspondiente.
-
-**Ruta B (alternativa, no implementada):** si prefieres usar **Zoho Forms** (producto distinto al CRM) para la encuesta en vez de campos personalizados del lead, la encuesta iría en un `<iframe>` aparte apuntando a la URL pública de tu formulario de Zoho Forms, separado del formulario de registro. Esto implica **dos envíos independientes** (uno al Web-to-Lead de registro, otro al formulario de Zoho Forms), por lo que no hay garantía nativa de que ambos se completen juntos ni de vincular automáticamente ambas respuestas a un mismo lead — tendrías que cruzarlos manualmente por correo/nombre. Si decides este camino, quita el `<fieldset>` de encuesta y los `LEADCF_TODO_*` de `index.html`, y en su lugar agrega un `<section>` con el `<iframe>` del formulario de Zoho Forms.
+**Nota:** la encuesta opcional ("Antes de terminar") especificada en el prompt original se implementó y luego se retiró a petición explícita — el formulario ahora solo pide los datos de registro (Nombre, Apellidos, Correo, WhatsApp, LEADCF7 y LEADCF49).
 
 ### Redirección tras el envío (`returnURL`)
 Actualmente el formulario usa `target="zoho_target"` apuntando a un `<iframe>` oculto, y el JS (`script.js`) oculta el formulario y muestra el bloque de confirmación en el sitio sin salir de la página — **no depende de `returnURL`**.

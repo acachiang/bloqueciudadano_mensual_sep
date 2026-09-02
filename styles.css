@@ -486,50 +486,8 @@ button {
   min-height: 1.2em;
 }
 
-.campo__contador {
-  font-size: 0.8rem;
-  color: var(--gris-texto);
-  text-align: right;
-}
-
 .form-grid--2col {
   grid-template-columns: 1fr;
-}
-
-.radios,
-.encuesta-opciones {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 20px;
-}
-
-.radios label {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  font-weight: 400;
-  cursor: pointer;
-}
-
-.encuesta-fieldset {
-  border: 1px dashed var(--gris-borde);
-  border-radius: 12px;
-  padding: 20px;
-  margin-top: 10px;
-}
-
-.encuesta-fieldset legend {
-  font-weight: 800;
-  padding: 0 8px;
-  color: var(--azul-profundo);
-}
-
-.encuesta-fieldset .campo {
-  margin-bottom: 20px;
-}
-
-.encuesta-fieldset .campo:last-child {
-  margin-bottom: 0;
 }
 
 .form-honeypot {

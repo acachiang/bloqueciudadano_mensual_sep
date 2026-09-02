@@ -6,7 +6,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   inicializarHeaderSticky();
   inicializarAnioDinamico();
-  inicializarContadorTextarea();
   inicializarFormulario();
 });
 
@@ -33,20 +32,6 @@ function inicializarAnioDinamico() {
   if (elAnio) {
     elAnio.textContent = new Date().getFullYear();
   }
-}
-
-/* ---------- Contador de caracteres de la encuesta ---------- */
-function inicializarContadorTextarea() {
-  var textarea = document.getElementById("encuesta_comentario");
-  var contador = document.getElementById("contador-comentario");
-  if (!textarea || !contador) return;
-
-  function actualizar() {
-    contador.textContent = textarea.value.length;
-  }
-
-  textarea.addEventListener("input", actualizar);
-  actualizar();
 }
 
 /* ---------- Formulario Zoho: validación inline + envío sin salir del sitio ---------- */
@@ -124,20 +109,6 @@ function inicializarFormulario() {
     return esValido;
   }
 
-  function poblarRespuestasEncuesta() {
-    var informado = form.querySelector('input[name="encuesta_informado"]:checked');
-    var contaminacion = form.querySelector('input[name="encuesta_contaminacion"]:checked');
-    var tema = document.getElementById("encuesta_tema");
-    var entero = document.getElementById("encuesta_entero");
-    var comentario = document.getElementById("encuesta_comentario");
-
-    document.getElementById("LEADCF_TODO_1").value = informado ? informado.value : "";
-    document.getElementById("LEADCF_TODO_2").value = contaminacion ? contaminacion.value : "";
-    document.getElementById("LEADCF_TODO_3").value = tema ? tema.value : "";
-    document.getElementById("LEADCF_TODO_4").value = entero ? entero.value : "";
-    document.getElementById("LEADCF_TODO_5").value = comentario ? comentario.value : "";
-  }
-
   form.addEventListener("submit", function (evento) {
     // Honeypot: si el campo trampa viene lleno, se trata como envío de bot y se bloquea.
     var honeypot = form.querySelector('input[name="aG9uZXlwb3Q"]');
@@ -150,8 +121,6 @@ function inicializarFormulario() {
       evento.preventDefault();
       return;
     }
-
-    poblarRespuestasEncuesta();
 
     botonEnviar.disabled = true;
     botonEnviar.textContent = "Enviando…";
